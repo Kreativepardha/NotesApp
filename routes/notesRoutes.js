@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const bcrypt = require("bcrypt")
+// const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const {authMiddleware} = require("../middleware/authmiddleware");
 const { Notes } = require('../db');
@@ -60,7 +60,8 @@ try {
 })
 
 router.patch('/', async(req,res)=>{
-    let {id,body,title} = req.body;
+    let {id} = req.headers;
+    let {body,title} = req.body;
         try {
              const updateNote =  await Notes.findByIdAndUpdate(id,{body,title})
              if(!updateNote) return res.json({message:"note not found"})
@@ -77,7 +78,7 @@ router.patch('/', async(req,res)=>{
         }
 })
 router.delete('/', async(req,res)=>{
-    const {id} = req.body;
+    const {id} = req.headers;
         try {
              const noteDelted =await Notes.findByIdAndDelete(id)
              if(!noteDelted) return res.json({message:"note not found"})
