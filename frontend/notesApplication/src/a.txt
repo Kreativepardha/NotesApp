@@ -1,0 +1,181 @@
+
+    // const showOptions = (optionsBtn) => {
+    //     const openMenus = document.querySelectorAll('.options-menu');
+    //     openMenus.forEach(menu => {
+    //         menu.style.display = 'none';
+    //     });
+
+    //     const optionsMenu = optionsBtn.nextElementSibling;
+    //     optionsMenu.style.display = 'block';
+
+    //     document.addEventListener('click', closeOptionsMenu);
+    // }
+
+    // const closeOptionsMenu = () => {
+    //     const optionsMenus = document.querySelectorAll('.options-menu');
+    //     optionsMenus.forEach(menu => {
+    //         menu.style.display = 'none';
+    //     });
+
+    //     document.removeEventListener('click', closeOptionsMenu);
+    // }
+
+    // const addNote = () => {
+    //     const notesContainer = document.getElementById('notesContainer');
+    //     const note = document.createElement('div');
+    //     note.classList.add('note');
+    //     note.innerHTML = `
+    //         <div class="note-header">
+    //             <input type="text" class="note-title" placeholder="Title">
+    //             <button class="options-btn">...</button>
+    //             <div class="options-menu">
+    //                 <button class="option-btn reminder-btn">Set Reminder</button>
+    //                 <button class="option-btn hide-btn">Hide</button>
+    //                 <button class="option-btn ">Update</button>
+    //                 <button class="option-btn delete-btn">Delete</button>
+    //                 <button class="option-btn save-btn">Save</button> <!-- Save option -->
+    //             </div>
+    //         </div>
+    //         <textarea class="note-body" placeholder="Take a note..."></textarea>
+    //     `;
+    //     notesContainer.appendChild(note);
+
+        // const optionsBtn = note.querySelector('.options-btn');
+        // optionsBtn.addEventListener('click', (event) => {
+        //     event.stopPropagation();
+        //     showOptions(optionsBtn);
+        // });
+
+        // const savedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+        // if (savedNotes.length > 0) {
+        //     const lastNote = savedNotes[savedNotes.length - 1];
+        //     note.querySelector('.note-title').value = lastNote.title;
+        //     note.querySelector('.note-body').value = lastNote.body;
+        // }
+
+        // const reminderBtn = note.querySelector('.reminder-btn');
+        // reminderBtn.addEventListener('click', () => {
+        //     const reminder = prompt("Enter reminder:");
+        //     if (reminder !== null) {
+        //         alert('Reminder set for this note: ' + reminder);
+        //     }
+        // });
+
+        // const hideBtn = note.querySelector('.hide-btn');
+        // hideBtn.addEventListener('click', () => {
+        //     const password = prompt("Enter password to open hidden note:");
+        //     if (password !== null && password === PASSWORD) {
+        //         if (note.style.display === 'none') {
+        //             note.style.display = 'block';
+        //         } else {
+        //             note.style.display = 'none';
+        //         }
+        //     } else {
+        //         alert('Incorrect password. Cannot open hidden note.');
+        //     }
+        // });
+
+        // const deleteBtn = note.querySelector('.delete-btn');
+        // deleteBtn.addEventListener('click', () => {
+        //     notesContainer.removeChild(note);
+        //     saveNotes();
+        // });
+
+        // const saveBtn = note.querySelector('.save-btn');
+        // saveBtn.addEventListener('click', () => {
+        //     saveNotes();
+        // });
+    // }
+
+    // const saveNotes = () => {
+    //     const notes = [];
+    //     const noteElements = document.querySelectorAll('.note');
+    //     noteElements.forEach(noteElement => {
+    //         const title = noteElement.querySelector('.note-title').value;
+    //         const body = noteElement.querySelector('.note-body').value;
+    //         notes.push({ title, body });
+    //     });
+    //     localStorage.setItem('notes', JSON.stringify(notes));
+    // }
+
+    
+    useEffect(() => {
+        const addNoteBtn = document.getElementById('addNoteBtn');
+
+        addNoteBtn.addEventListener('click', addNote);
+
+       getNotes()
+
+        const optionsBtns = document.querySelectorAll('.options-btn');
+        optionsBtns.forEach(btn => {
+            btn.addEventListener('click', (event) => {
+                event.stopPropagation(); 
+                showOptions(btn);
+            });
+        });
+
+        return () => {
+            addNoteBtn.removeEventListener('click', addNote);
+            optionsBtns.forEach(btn => {
+                btn.removeEventListener('click', showOptions);
+            });
+        };
+    }, []);
+
+
+
+
+
+    const renderNotes = () => {
+        return (
+            <div>
+     
+
+                {notes.map((note,index)=>(
+                    <div   key={index} className='note' >
+                        <div className="note-header">
+                            <input type="text" className='note-title'  value={note.title} onChange={(e)=>setTitle(e.target.value)} placeholder='title' />
+                            <button className='options-btn'onClick={(e)=>{
+                                     e.stopPropagation();
+                                         toggleOptionsMenu(index)
+                                }}>...</button>
+                                {optionsMenuVisibility[index ] &&(   <div className="options-menu">
+                                <button className="option-btn reminder-btn">Set Reminder</button>
+                                <button className="option-btn hide-btn">Hide </button>
+                                <button className="option-btn ">Update </button>
+                                <button className="option-btn delete-btn">Delete</button>
+                                <button className="option-btn save-btn" onClick={()=>handleSaveBtn(note.title, note.body)} >Save</button>
+                            </div>
+                            )}
+                        </div>
+                        <textarea name="note-body" defaultValue={note.body} placeholder='take a note' value={body} onChange={(e)=>setBody(e.target.value)} id="" cols="30" rows="10"></textarea>
+                    </div>
+            
+                ))}
+                
+      
+              
+
+
+            </div>
+        )
+    }
+    return (
+        <div>
+            <h1 id="title">Notes App</h1>
+            <div id="notesContainer">
+            {renderNotes()}
+            </div>
+
+            <button id="addNoteBtn">+</button>
+          
+
+            <div className="options-menu">
+                <button id="reminderOption" className="option-btn reminder-btn">Set Reminder</button>
+                <button id="hideOption" className="option-btn hide-btn">Hide</button>
+                <button id="deleteOption" className="option-btn delete-btn">Delete</button>
+                <button id="saveOption" className="option-btn save-btn">Save</button>
+            </div>
+        </div>
+    );
+}
