@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+
 
 const Notes = () => {
     const [notes, setNotes] = useState([]);
@@ -7,7 +9,20 @@ const Notes = () => {
     useEffect(() => {
         loadNotes();
     }, []);
-
+const getUserIdFromToken = () => {
+        const token = localStorage.getItem("token"); // Retrieve JWT token from localStorage
+        if (token) {
+            try {
+                const decoded = jwt_decode(token); // Decode the token
+                return decoded.userId; // Return the user ID from the decoded token
+            } catch (error) {
+                console.error("Error decoding token:", error);
+                return null;
+            }
+        } else {
+            return null;
+        }
+    };
     const addNote = () => {
         const newNote = {
             title: "",
@@ -16,22 +31,21 @@ const Notes = () => {
         setNotes(prevNotes => [...prevNotes, newNote]);
     }   
 
-   const saveNote = async (title, body) => {
-    try {
-        const token = 'your_authentication_token'; // Provide your authentication token here
-        const response = await axios.post("https://notesapp-gts2.onrender.com/api/notes/create", {
-            userId: token, // Assuming your backend requires a userId
-            title,
-            body
-        });
-        console.log("Note saved successfully");
-        return response.data; // Return the saved note from the backend
-    } catch (error) {
-        console.error("Error saving note:", error);
-        throw error; // Throw error for handling in the component
+ const saveNote = async (title, body) => {
+        const userId = getUserIdFromToken(); // Extract userId from token
+        try {
+            const response = await axios.post("https://notesapp-gts2.onrender.com/api/notes/create", {
+                userId,
+                title,
+                body
+            });
+            console.log("Note saved successfully");
+            return response.data;
+        } catch (error) {
+            console.error("Error saving note:", error);
+            throw error;
+        }
     }
-}
-
 
     const loadNotes = async () => {
         try {
