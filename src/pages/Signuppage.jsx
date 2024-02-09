@@ -35,25 +35,25 @@ const handleSignup = async(e) =>{
 
 
     return (
-        <div className="flex justify-center items-center flex-col h-screen">
-            <div className="bg-cyan-900 p-20 border-radius-lg">
+        <div className="flex justify-center items-center signbody flex-col h-screen">
+            <div className="signhead">
                 <h2>Sign Up</h2>
                 <form id="signupForm">
                     <div className="form-group">
                         <label htmlFor="username">Username:</label>
-                        <input type="text" id="username" name="username" value={username} required onChange={(e)=>{setUsername(e.target.value)}}/>
+                        <input type="text" id="s username" name="username" value={username} required onChange={(e)=>{setUsername(e.target.value)}}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email:</label>
-                        <input type="email" id="email" name="email" required value={email} onChange={(e)=>{setEmail(e.target.value)}} />
+                        <input type="email" id="s email"  name="email" required value={email} onChange={(e)=>{setEmail(e.target.value)}} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password:</label>
-                        <input type="password" id="password" name="password" value={password} required onChange={(e)=>{setPassword(e.target.value)}}/>
+                        <input type="password" id="s password" name="password" value={password} required onChange={(e)=>{setPassword(e.target.value)}}/>
                     </div>
                     {error && <p className="text-red-500">{error}</p>}
                     <button type="submit" onClick={handleSignup}>Sign Up</button>
-                    <div className="cursor-pointer" onClick={()=>{
+                    <div className="cursor-pointer tag" onClick={()=>{
                         navigate("/login")
                     }} >Already have an acc?</div>
                 </form>
