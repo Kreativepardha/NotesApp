@@ -44,7 +44,7 @@ const mainRouter = require('./routes/index')
 const cors = require('cors')
 
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'https://notes-app-seven-alpha.vercel.app/',
     credentials: true, // Allow sending cookies
 };
 
