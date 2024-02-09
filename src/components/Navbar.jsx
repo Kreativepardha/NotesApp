@@ -12,7 +12,7 @@ export const Navbar = ()=>{
         navigate("/")
     }
     return <div>
-        <div className="Nav-field h-19 bg-yellow-400 flex  justify-around ">
+        <div className="Nav-field h-19 bg-yellow-400 flex ">
             
                 <span className="w-4 text-center p-2 m-2">home</span>
                 <span className="w-4 text-center p-2 m-2 ml-9 cursor-pointer text-rose-700">Notes</span>
