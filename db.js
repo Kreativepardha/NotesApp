@@ -6,10 +6,10 @@ mongoose.connect("mongodb+srv://saradhipardha12:PARDHA123@cluster0.n0euu2z.mongo
 
 
 const userSchema = mongoose.Schema({
-    username:{
-        type:String,
-        required:true
-    },
+    // username:{
+    //     type:String,
+    //     required:true
+    // },
     email:{
         type:String,
         unique:true,
