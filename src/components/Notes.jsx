@@ -16,21 +16,22 @@ const Notes = () => {
         setNotes(prevNotes => [...prevNotes, newNote]);
     }   
 
-    const saveNote = async (title,body) => {
-        // const { title, body } = note; // Destructure title and body from note object
-        try {
-            const response = await axios.post("https://notesapp-gts2.onrender.com/api/notes/create", {
-                title,
-                body
-            });
-            console.log("Note saved successfully");
-            return response.data; // Return the saved note from the backend
-        } catch (error) {
-            console.error("Error saving note:", error);
-            throw error; // Throw error for handling in the component
-        }
+   const saveNote = async (title, body) => {
+    try {
+        const token = 'your_authentication_token'; // Provide your authentication token here
+        const response = await axios.post("https://notesapp-gts2.onrender.com/api/notes/create", {
+            userId: token, // Assuming your backend requires a userId
+            title,
+            body
+        });
+        console.log("Note saved successfully");
+        return response.data; // Return the saved note from the backend
+    } catch (error) {
+        console.error("Error saving note:", error);
+        throw error; // Throw error for handling in the component
     }
-    
+}
+
 
     const loadNotes = async () => {
         try {
