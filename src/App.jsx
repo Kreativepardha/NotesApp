@@ -1,5 +1,7 @@
 
 import './App.css'
+import { Cookie } from './components/Cookies';
+
 import { Herosection } from './pages/Herosection'
 import { LoginPage } from './pages/Loginpage'
 import { SignupPage } from './pages/Signuppage'
@@ -10,6 +12,7 @@ function App() {
 
   return (
     <>
+       <Cookie />
         <Routes>
 
           <Route path="/" element={<SignupPage/> } />
