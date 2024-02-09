@@ -43,7 +43,13 @@ const app = express();
 const mainRouter = require('./routes/index')
 const cors = require('cors')
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    credentials: true, // Allow sending cookies
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json())
 
 app.use('/api',mainRouter)
