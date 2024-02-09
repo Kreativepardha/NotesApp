@@ -113,7 +113,9 @@ router.get("/", async (req, res) => {
 
 router.post("/create", async (req, res) => {
     const { title, body } = req.body;
-    const userId = req.userId;
+    const token = req.headers.authorization.split(' ')[1];
+    const { userId } = jwt.verify(token, "pardhakey");
+
     try {
         await Notes.create({
             userId,
@@ -123,7 +125,7 @@ router.post("/create", async (req, res) => {
         res.json({ message: "Note created successfully" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "internal server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 });
 
