@@ -32,20 +32,22 @@ const getUserIdFromToken = () => {
     }   
 
  const saveNote = async (title, body) => {
-        const userId = getUserIdFromToken(); // Extract userId from token
-        try {
-            const response = await axios.post("https://notesapp-gts2.onrender.com/api/notes/create", {
-                userId,
-                title,
-                body
-            });
-            console.log("Note saved successfully");
-            return response.data;
-        } catch (error) {
-            console.error("Error saving note:", error);
-            throw error;
-        }
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, body }), // Pass the actual title and body
+            credentials: 'include' // Include this line to send cookies with the request if needed
+        };
+        const response = await fetch("http://localhost:4000/api/notes/create", requestOptions);
+        console.log("Note saved successfully");
+        return response.data; // Return the saved note from the backend
+    } catch (error) {
+        console.error("Error saving note:", error);
+        throw error; // Throw error for handling in the component
     }
+}
+
 
     const loadNotes = async () => {
         try {
